@@ -6,6 +6,7 @@ import "./styles.scss";
 import { Activity } from "../../libs/api-client";
 import Filters, { FiltersData } from "../filters";
 import { UrlParams } from "../../libs/url-params";
+import Button from "../button";
 
 interface ActivitiesListProps {
     title: string;
@@ -13,6 +14,7 @@ interface ActivitiesListProps {
     isLoading: boolean;
     filtersData: FiltersData;
     onChangeFilter: (key: keyof UrlParams, value: string[]) => void;
+    loadMore: () => void;
 }
 
 const ActivitiesList: FC<ActivitiesListProps> = ({
@@ -20,6 +22,7 @@ const ActivitiesList: FC<ActivitiesListProps> = ({
     data,
     filtersData,
     onChangeFilter,
+    loadMore,
 }) => {
     const className = useClassname("activities-list");
 
@@ -31,9 +34,9 @@ const ActivitiesList: FC<ActivitiesListProps> = ({
 
             <div className={className("list")}>
                 <div className={className("title")}>{title}</div>
-                <div className={className("list")}>
+                <div className={className("items")}>
                     {data.map((item) => (
-                        <div className={className("item")}>
+                        <div className={className("item")} key={item.title}>
                             <ActivityCard
                                 title={item.title}
                                 description={item.description}
@@ -46,6 +49,7 @@ const ActivitiesList: FC<ActivitiesListProps> = ({
                         </div>
                     ))}
                 </div>
+                <Button onClick={loadMore} size="l" mode="active" width="full">Загрузить еще</Button>
             </div>
         </div>
     );

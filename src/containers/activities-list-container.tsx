@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, FC, useCallback } from "react";
 import { useEffect } from "react";
 import ActivitiesList from "../components/activities-list";
 import useApiClient, { Activity } from "../libs/api-client";
@@ -8,30 +8,51 @@ const useActivitiesListLoader = () => {
     const apiClient = useApiClient();
     const [isLoading, setLoading] = useState(false);
     const [data, setData] = useState<Array<Activity>>([]);
+    const [offset, setOffset] = useState(0);
+    const limit = 2;
 
     const [urlParams] = useUrlParams();
 
     useEffect(() => {
-        const fetchData = async () => {
+        const loadData = async () => {
             setLoading(true);
             const data = await apiClient.getActivitiesList({
+                // todo: остальные
                 search: urlParams.search,
+                limit,
             });
             setData(data);
             setLoading(false);
         };
 
-        fetchData();
-    }, [setLoading, urlParams.search]);
+        loadData();
+    }, [urlParams.search, urlParams.online]);
+
+    useEffect(() => {
+        const loadMoreData = async () => {
+            const moreData = await apiClient.getActivitiesList({
+                // todo: остальные параметры
+                search: urlParams.search,
+                limit,
+                offset,
+            });
+            setData([...data, ...moreData]);
+        };
+
+        loadMoreData();
+    }, [offset]);
 
     return {
         data,
         isLoading,
+        loadMore: () => {
+            setOffset(offset + limit);
+        }
     };
 };
 
 const ActivitiesListContainer: FC = () => {
-    const { data, isLoading } = useActivitiesListLoader();
+    const { data, isLoading, loadMore } = useActivitiesListLoader();
     const [urlParams, addUrlParam] = useUrlParams();
 
     return (
@@ -46,6 +67,7 @@ const ActivitiesListContainer: FC = () => {
             onChangeFilter={(key: keyof UrlParams, value: string[]) => {
                 addUrlParam(key, value.join(","));
             }}
+            loadMore={loadMore}
         />
     );
 };

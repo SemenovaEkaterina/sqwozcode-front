@@ -8,6 +8,7 @@ interface ButtonProps {
     mode: "plain" | "active" | "icon";
     onClick?: () => void;
     isDisabled?: boolean;
+    width?: 'full';
 }
 
 const Button: FC<PropsWithChildren<ButtonProps>> = (props) => {
@@ -20,6 +21,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = (props) => {
                 mode: props.mode,
                 size: props.size,
                 disabled: props.isDisabled,
+                width: props.width,
             })}
         >
             {props.children}

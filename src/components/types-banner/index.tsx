@@ -39,7 +39,7 @@ const TypesBanner: FC = () => {
                 const isActive = type === urlParams.type;
                 if (isActive) {
                     return (
-                        <div className={className("link")}>
+                        <div className={className("link")} key={type}>
                             <Button mode={"active"} size="m" isDisabled>
                                 {title}
                             </Button>

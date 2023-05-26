@@ -3,6 +3,9 @@ import axios from "axios";
 interface ActivitiesListParams {
     preset?: string;
     search?: string;
+    online?: boolean;
+    limit?: number;
+    offset?: number;
 }
 
 export interface Activity {
@@ -42,6 +45,10 @@ const useApiClient = (): ApiClient => {
             if (params?.search) {
                 queryParams.search = params.search;
             }
+
+            queryParams.limit = params?.limit?.toString() || '10';
+            queryParams.offset = params?.offset?.toString() || '0';
+
             return axios
                 .get(
                     `${apiBasePath}/getActivitiesList?${new URLSearchParams(
@@ -49,74 +56,47 @@ const useApiClient = (): ApiClient => {
                     )}`
                 )
                 .then(function (response) {
-                    // const items = response.data.message ? response.data.message.map(
-                    //     (item: Record<string, string>) => ({
-                    //         id: item.id,
-                    //         title: item.type3,
-                    //         description: item.d_level1,
-                    //         isOnline: item.online,
-                    //     })
-                    // ) : [];
-
-                    const items = [
-                        {
-                            id: "111",
-                            title: "test",
-                            description: "test",
-                            isOnline: true,
-                        },
-                        {
-                            id: "111",
-                            title: "test",
-                            description: "test",
-                            isOnline: true,
-                        },
-                        {
-                            id: "111",
-                            title: "test",
-                            description: "test",
-                            isOnline: true,
-                        },
-                        {
-                            id: "111",
-                            title: "test",
-                            description: "test",
-                            isOnline: true,
-                        },
-                    ];
+                    const items = response.data.message ? response.data.message.map(
+                        (item: Record<string, string>) => ({
+                            id: item.id,
+                            title: item.type3,
+                            description: item.d_level1,
+                            isOnline: item.online,
+                        })
+                    ) : [];
 
                     return items;
                 })
                 .catch(function (error) {
                     console.log(error);
-                    // return [];
+                    return [];
 
-                    return [
-                        {
-                            id: "111",
-                            title: "test",
-                            description: "test",
-                            isOnline: true,
-                        },
-                        {
-                            id: "111",
-                            title: "test",
-                            description: "test",
-                            isOnline: true,
-                        },
-                        {
-                            id: "111",
-                            title: "test",
-                            description: "test",
-                            isOnline: true,
-                        },
-                        {
-                            id: "111",
-                            title: "test",
-                            description: "test",
-                            isOnline: true,
-                        },
-                    ];
+                    // return [
+                    //     {
+                    //         id: "111",
+                    //         title: "test",
+                    //         description: "test",
+                    //         isOnline: true,
+                    //     },
+                    //     {
+                    //         id: "111",
+                    //         title: "test",
+                    //         description: "test",
+                    //         isOnline: true,
+                    //     },
+                    //     {
+                    //         id: "111",
+                    //         title: "test",
+                    //         description: "test",
+                    //         isOnline: true,
+                    //     },
+                    //     {
+                    //         id: "111",
+                    //         title: "test",
+                    //         description: "test",
+                    //         isOnline: true,
+                    //     },
+                    // ];
                 });
         },
         createUser: (data) =>

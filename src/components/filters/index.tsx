@@ -55,7 +55,7 @@ const CheckboxGroup: FC<{
     return (
         <div className={className("checkbox-group")}>
             {config.map((item) => (
-                <div className={className("checkbox")}>
+                <div className={className("checkbox")} key={item.value}>
                     <Checkbox
                         onChange={(e) => {
                             if (e.target.checked) {
