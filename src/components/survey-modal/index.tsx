@@ -126,6 +126,7 @@ const SurveyModal: FC<SurveyProps> = ({ isOpened, data, onClose }) => {
 
                                     if (currentAnswer?.result) {
                                         // handleSubmit
+                                        // reset form
                                         alert(currentAnswer?.result);
                                     }
                                 }}

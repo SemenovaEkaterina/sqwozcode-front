@@ -1,4 +1,4 @@
-import React, { useState, FC, useCallback } from "react";
+import React, { useState, FC } from "react";
 import { useEffect } from "react";
 import ActivitiesList from "../components/activities-list";
 import useApiClient, { Activity } from "../libs/api-client";
@@ -9,7 +9,7 @@ const useActivitiesListLoader = () => {
     const [isLoading, setLoading] = useState(false);
     const [data, setData] = useState<Array<Activity>>([]);
     const [offset, setOffset] = useState(0);
-    const limit = 2;
+    const limit = 8;
 
     const [urlParams] = useUrlParams();
 
