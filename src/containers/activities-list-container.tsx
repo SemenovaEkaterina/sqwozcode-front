@@ -47,7 +47,7 @@ const useActivitiesListLoader = () => {
         isLoading,
         loadMore: () => {
             setOffset(offset + limit);
-        }
+        },
     };
 };
 

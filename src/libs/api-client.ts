@@ -46,8 +46,8 @@ const useApiClient = (): ApiClient => {
                 queryParams.search = params.search;
             }
 
-            queryParams.limit = params?.limit?.toString() || '10';
-            queryParams.offset = params?.offset?.toString() || '0';
+            queryParams.limit = params?.limit?.toString() || "10";
+            queryParams.offset = params?.offset?.toString() || "0";
 
             return axios
                 .get(
@@ -56,14 +56,16 @@ const useApiClient = (): ApiClient => {
                     )}`
                 )
                 .then(function (response) {
-                    const items = response.data.message ? response.data.message.map(
-                        (item: Record<string, string>) => ({
-                            id: item.id,
-                            title: item.type3,
-                            description: item.d_level1,
-                            isOnline: item.online,
-                        })
-                    ) : [];
+                    const items = response.data.message
+                        ? response.data.message.map(
+                              (item: Record<string, string>) => ({
+                                  id: item.id,
+                                  title: item.type3,
+                                  description: item.d_level1,
+                                  isOnline: item.online,
+                              })
+                          )
+                        : [];
 
                     return items;
                 })

@@ -49,7 +49,9 @@ const ActivitiesList: FC<ActivitiesListProps> = ({
                         </div>
                     ))}
                 </div>
-                <Button onClick={loadMore} size="l" mode="active" width="full">Загрузить еще</Button>
+                <Button onClick={loadMore} size="l" mode="active" width="full">
+                    Загрузить еще
+                </Button>
             </div>
         </div>
     );
