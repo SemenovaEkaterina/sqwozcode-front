@@ -1,0 +1,9 @@
+.layout {
+    padding: 0 20px;
+
+    &__content {
+        max-width: 1200px;
+        margin: auto;
+        padding: 40px 0;
+    }
+}
