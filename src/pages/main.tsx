@@ -1,12 +1,36 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import CounterContainer from "../containers/counter";
-import {Routes} from "../libs/application-routes";
+import BannersHeader from "../components/banners-header";
+import Layout from "../components/layout";
+import ActivitiesPresetContainer from "../containers/activities-preset-container";
+import AuthModalContainer from "../containers/auth-modal-container";
+import Search from "../components/search";
 
-const MainPage = () => <>
-    <CounterContainer />
-    <Link to={Routes.List}>list</Link>
-</>;
+const presets = [
+    {
+        title: "Подходит всем",
+        preset: "popular",
+    },
+    {
+        title: "В здоровом теле — здоровый дух",
+        preset: "health",
+    },
+    {
+        title: "Век живи — век учись",
+        preset: "mind",
+    },
+];
 
+const MainPage = () => (
+    <>
+        <Layout>
+            <Search />
+            <BannersHeader />
+            {presets.map((preset) => (
+                <ActivitiesPresetContainer {...preset} />
+            ))}
+        </Layout>
+        <AuthModalContainer />
+    </>
+);
 
 export default MainPage;

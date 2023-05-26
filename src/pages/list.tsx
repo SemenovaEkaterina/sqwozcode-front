@@ -1,12 +1,19 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import CounterContainer from "../containers/counter";
-import {Routes} from "../libs/application-routes";
+import BannersHeader from "../components/banners-header";
+import Layout from "../components/layout";
+import Search from "../components/search";
+import ActivitiesListContainer from "../containers/activities-list-container";
+import AuthModalContainer from "../containers/auth-modal-container";
 
-const ListPage = () => <>
-    <CounterContainer />
-    <Link to={Routes.Main}>main</Link>
-</>;
-
+const ListPage = () => (
+    <>
+        <Layout>
+            <Search />
+            <BannersHeader />
+            <ActivitiesListContainer />
+            <AuthModalContainer />
+        </Layout>
+    </>
+);
 
 export default ListPage;
