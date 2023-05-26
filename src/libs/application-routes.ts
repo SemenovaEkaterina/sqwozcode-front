@@ -1,4 +1,4 @@
 export enum Routes {
-    Main = '/',
-    List = '/list',
+    Main = "/",
+    List = "/list",
 }
