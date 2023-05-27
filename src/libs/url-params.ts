@@ -11,6 +11,7 @@ export interface UrlParams {
     search?: string;
     online?: string;
     dayOfWeek?: string;
+    cluster?: string;
 }
 
 export const useUrlParams = (): [
@@ -25,6 +26,7 @@ export const useUrlParams = (): [
             search: searchParams.get("search") || undefined,
             online: searchParams.get("online") || undefined,
             dayOfWeek: searchParams.get("dayOfWeek") || undefined,
+            cluster: searchParams.get("cluster") || undefined,
         },
         (param, value) =>
             setSearchParams((prev) => {

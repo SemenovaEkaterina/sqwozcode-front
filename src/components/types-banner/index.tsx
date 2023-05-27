@@ -2,28 +2,14 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { Routes } from "../../libs/application-routes";
 import { useClassname } from "../../libs/css";
-import { Type, useUrlParams } from "../../libs/url-params";
+import { typesConfig } from "../../libs/types";
+import { useUrlParams } from "../../libs/url-params";
 import Button from "../button";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import img from "./img.png";
 
 import "./styles.scss";
-
-const linksConfig = [
-    {
-        title: "Для тела",
-        type: Type.Health,
-    },
-    {
-        title: "Для ума",
-        type: Type.Mind,
-    },
-    {
-        title: "Для души",
-        type: Type.Soul,
-    },
-];
 
 const TypesBanner: FC = () => {
     const className = useClassname("types-banner");
@@ -35,7 +21,7 @@ const TypesBanner: FC = () => {
             <div className={className("title")}>
                 Занятия под любой образ жизни
             </div>
-            {linksConfig.map(({ title, type }) => {
+            {typesConfig.map(({ title, type }) => {
                 const isActive = type === urlParams.type;
                 if (isActive) {
                     return (

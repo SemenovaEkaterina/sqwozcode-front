@@ -4,13 +4,15 @@ import { Input } from "antd";
 
 import "./styles.scss";
 import Button from "../button";
-import { Link } from "react-router-dom";
-import { Routes } from "../../libs/application-routes";
-import { useState } from "react";
 
-const Search: FC = () => {
+interface SearchProps {
+    value: string;
+    onChange: (value: string) => void;
+    onSearch: () => void;
+}
+
+const Search: FC<SearchProps> = ({ value, onChange, onSearch }) => {
     const className = useClassname("search");
-    const [value, setValue] = useState("");
 
     return (
         <div className={className()}>
@@ -18,14 +20,12 @@ const Search: FC = () => {
                 value={value}
                 className={className("input")}
                 suffix={
-                    <Link to={`${Routes.List}?search=${value}`}>
-                        <Button mode="active" size="l">
-                            Найти
-                        </Button>
-                    </Link>
+                    <Button mode="active" size="l" onClick={onSearch}>
+                        Найти
+                    </Button>
                 }
                 placeholder="Введите название занятия"
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => onChange(e.target.value)}
             />
         </div>
     );

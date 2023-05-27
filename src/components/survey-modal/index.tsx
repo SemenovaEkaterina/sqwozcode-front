@@ -31,6 +31,8 @@ interface SurveyProps {
     onClose: () => void;
 }
 
+const progressScale = [30, 60, 70, 80, 90, 100];
+
 const SurveyModal: FC<SurveyProps> = ({ isOpened, data, onClose }) => {
     const className = useClassname("survey-modal");
     const [activeQuestionId, setActiveQuestionId] = useState("0");
@@ -43,6 +45,10 @@ const SurveyModal: FC<SurveyProps> = ({ isOpened, data, onClose }) => {
     const [answersHistory, setAnswersHistory] = useState<
         Array<{ qId: string; aId: string }>
     >([]);
+
+    const isLastQuestion = data[activeQuestionId].answers.filter(
+        (answer) => answer.result
+    ).length;
 
     return (
         <Modal
@@ -74,9 +80,6 @@ const SurveyModal: FC<SurveyProps> = ({ isOpened, data, onClose }) => {
                         ))}
                     </div>
                     <div className={className("footer")}>
-                        <div className={className("step")}>
-                            {answersHistory.length + 1}/6
-                        </div>
                         <div className={className("buttons")}>
                             {Boolean(answersHistory.length) && (
                                 <Button
@@ -134,6 +137,18 @@ const SurveyModal: FC<SurveyProps> = ({ isOpened, data, onClose }) => {
                                 Вперед <ArrowRightOutlined />
                             </Button>
                         </div>
+                    </div>
+                    <div className={className("progress")}>
+                        <div
+                            className={className("progress-fill")}
+                            style={{
+                                width: `${
+                                    isLastQuestion
+                                        ? 100
+                                        : progressScale[answersHistory.length]
+                                }%`,
+                            }}
+                        />
                     </div>
                 </div>
             )}

@@ -1,0 +1,33 @@
+.header {
+    display: flex;
+
+    &__home {
+        width: 62px;
+        height: 62px;
+
+        border: 2px solid #eaebec;
+
+        border-radius: 50%;
+
+        box-sizing: border-box;
+
+        text-decoration: none;
+        color: #252c33;
+
+        display: flex;
+        justify-content: center;
+
+        margin-right: 16px;
+
+        & svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        transition: all 100ms linear;
+
+        &:hover {
+            border-color: #2e343f;
+        }
+    }
+}

@@ -39,7 +39,7 @@
 
         text-align: center;
 
-        max-width: 693px;
+        max-width: 90%;
         margin: auto;
     }
 
@@ -65,7 +65,9 @@
 
     &__footer {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+
+        margin-bottom: 56px;
     }
 
     &__buttons {
@@ -73,18 +75,20 @@
         gap: 8px;
     }
 
-    &__step {
-        display: inline-block;
+    &__progress {
+        width: 100%;
+        background-color: #eff0ff;
+        height: 4px;
 
+        border-radius: 8px;
+    }
+
+    &__progress-fill {
         background: #4b4f81;
-        border-radius: 20px;
+        border-radius: 8px;
 
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
+        transition: all 400ms linear;
 
-        color: #fff;
-
-        padding: 8px 24px;
+        height: 100%;
     }
 }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Type } from "./url-params";
 
 interface ActivitiesListParams {
     preset?: string;
@@ -6,6 +7,8 @@ interface ActivitiesListParams {
     online?: boolean;
     limit?: number;
     offset?: number;
+    cluster?: string;
+    type?: string;
 }
 
 export interface Activity {
@@ -14,6 +17,12 @@ export interface Activity {
     description: string;
     picture?: string;
     isOnline: boolean;
+}
+
+export interface Cluster {
+    id: string;
+    name: string;
+    type: Type;
 }
 
 // todo: error response
@@ -27,10 +36,10 @@ interface ApiClient {
     }) => Promise<{
         id: string;
     }>;
-    // todo: getUser
     getActivitiesList: (
         params?: ActivitiesListParams
     ) => Promise<Array<Activity>>;
+    getClusters: () => Promise<Array<Cluster>>;
 }
 
 const apiBasePath = "http://api.sqwozcode.ru";
@@ -44,6 +53,18 @@ const useApiClient = (): ApiClient => {
             }
             if (params?.search) {
                 queryParams.search = params.search;
+            }
+
+            if (typeof params?.online !== "undefined") {
+                queryParams.online = params.online ? "1" : "0";
+            }
+
+            if (params?.cluster) {
+                queryParams.clusterIds = params.cluster;
+            }
+
+            if (params?.type && !params?.cluster) {
+                queryParams.type = params.type;
             }
 
             queryParams.limit = params?.limit?.toString() || "10";
@@ -130,6 +151,27 @@ const useApiClient = (): ApiClient => {
                         id: "1",
                     };
                 }),
+        getClusters: () => {
+            return axios
+                .get(`${apiBasePath}/getClusters`)
+                .then(function (response) {
+                    const items = response.data.message
+                        ? response.data.message.map(
+                              (item: Record<string, string>) => ({
+                                  id: item.clusterId,
+                                  name: item.name,
+                                  type: item.type,
+                              })
+                          )
+                        : [];
+
+                    return items;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    return [];
+                });
+        },
     };
 };
 
