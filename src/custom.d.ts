@@ -16,7 +16,7 @@ declare namespace ymaps {
         then(
             onFulfilled?: Function,
             onRejected?: Function,
-            onProgress?: Function,
+            onProgress?: Function
         ): Promise;
     }
 
@@ -25,7 +25,7 @@ declare namespace ymaps {
 
         geoObjects: {
             add: (geo: GeoObject) => void;
-        }
+        };
     }
 
     export class MapState {
@@ -35,14 +35,14 @@ declare namespace ymaps {
 
     export class GeoObjectState {
         geometry: {
-            type: string,
-            coordinates: number[]
+            type: string;
+            coordinates: number[];
         };
         properties: {
             balloonContentHeader: string;
             balloonContentBody: string;
             balloonContentFooter: string;
-        }
+        };
     }
 
     export class GeoObject {

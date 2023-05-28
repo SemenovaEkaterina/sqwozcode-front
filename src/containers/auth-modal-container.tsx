@@ -7,7 +7,7 @@ import useApiClient from "../libs/api-client";
 import { useUserSession } from "../libs/user-session";
 import {
     isAuthModalOpened,
-    setSurveyResult,
+    // setSurveyResult,
     setUser,
     toggleAuthModal,
 } from "../store/user-slice";
@@ -35,20 +35,20 @@ const AuthModalContainer = () => {
     }, []);
 
     useEffect(() => {
-        const loadUser = async (id: string) => {
-            const data = await apiClient.getUser(id);
+        // const loadUser = async (id: string) => {
+        //     const data = await apiClient.getUser(id);
 
-            dispatch(setUser({ id: data.id }));
-            if (data.cluster) {
-                dispatch(setSurveyResult(data.cluster));
-            }
-        };
+        //     dispatch(setUser({ id: data.id }));
+        //     if (data.cluster) {
+        //         dispatch(setSurveyResult(data.cluster));
+        //     }
+        // };
 
         if (needAuth) {
             dispatch(toggleAuthModal(true));
         }
         if (userId) {
-            loadUser(userId);
+            dispatch(setUser({ id: userId }));
         }
     }, [needAuth, userId]);
 

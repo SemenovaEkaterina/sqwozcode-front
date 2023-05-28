@@ -9,63 +9,66 @@ const mapData = [
     {
         geometry: {
             type: "Point",
-            coordinates: [55.8, 37.8]
+            coordinates: [55.8, 37.8],
         },
         properties: {
-            balloonContentHeader: '<a href="/activity?id=801357840">Курсы компьютерной грамотности</a>',
-            balloonContentBody: 'Начало занятия: 12:00',
-            balloonContentFooter: '25 июня, 2023',
-        }
+            balloonContentHeader:
+                '<a href="/activity?id=801357840">Курсы компьютерной грамотности</a>',
+            balloonContentBody: "Начало занятия: 12:00",
+            balloonContentFooter: "25 июня, 2023",
+        },
     },
     {
         geometry: {
             type: "Point",
-            coordinates: [55.81, 37.76]
+            coordinates: [55.81, 37.76],
         },
         properties: {
-            balloonContentHeader: '<a href="/activity?id=801357840">Курсы компьютерной грамотности</a>',
-            balloonContentBody: 'Начало занятия: 12:00',
-            balloonContentFooter: '25 июня, 2023',
-        }
+            balloonContentHeader:
+                '<a href="/activity?id=801357840">Курсы компьютерной грамотности</a>',
+            balloonContentBody: "Начало занятия: 12:00",
+            balloonContentFooter: "25 июня, 2023",
+        },
     },
     {
         geometry: {
             type: "Point",
-            coordinates: [55.8, 37.7]
+            coordinates: [55.8, 37.7],
         },
         properties: {
-            balloonContentHeader: '<a href="/activity?id=801346672">Скандинавская ходьба</a>',
-            balloonContentBody: 'Начало занятия: 12:00',
-            balloonContentFooter: '25 июня, 2023',
-        }
+            balloonContentHeader:
+                '<a href="/activity?id=801346672">Скандинавская ходьба</a>',
+            balloonContentBody: "Начало занятия: 12:00",
+            balloonContentFooter: "25 июня, 2023",
+        },
     },
     {
         geometry: {
             type: "Point",
-            coordinates: [55.79, 37.75]
+            coordinates: [55.79, 37.75],
         },
         properties: {
-            balloonContentHeader: '<a href="/activity?id=801346672">Скандинавская ходьба</a>',
-            balloonContentBody: 'Начало занятия: 12:00',
-            balloonContentFooter: '25 июня, 2023',
-        }
-    }
+            balloonContentHeader:
+                '<a href="/activity?id=801346672">Скандинавская ходьба</a>',
+            balloonContentBody: "Начало занятия: 12:00",
+            balloonContentFooter: "25 июня, 2023",
+        },
+    },
 ];
 
 const Map: FC = () => {
     const className = useClassname("map");
     const mapRef = useRef<ymaps.Map>();
 
-
     useEffect(() => {
         ymaps.ready(() => {
             if (!mapRef.current) {
                 mapRef.current = new ymaps.Map("map", {
                     center: [55.8, 37.75],
-                    zoom: 13
+                    zoom: 13,
                 });
 
-                mapData.map(item => {
+                mapData.map((item) => {
                     mapRef.current?.geoObjects.add(new ymaps.GeoObject(item));
                 });
             }
@@ -74,8 +77,8 @@ const Map: FC = () => {
 
     return (
         <div className={className()}>
-            <div className={className('title')}>Занятия рядом с вами</div>
-            <div id="map" className={className('map')}></div>
+            <div className={className("title")}>Занятия рядом с вами</div>
+            <div id="map" className={className("map")}></div>
         </div>
     );
 };

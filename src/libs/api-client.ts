@@ -46,26 +46,58 @@ interface ApiClient {
     getActivitiesList: (
         params?: ActivitiesListParams
     ) => Promise<Array<Activity>>;
+    getRecomends: (id: string, preset: string) => Promise<Array<Activity>>;
     getClusters: () => Promise<Array<Cluster>>;
     getActivity: (id: string) => Promise<Activity>;
     saveSurveyResult: (cluserId: string, userId: string) => Promise<boolean>;
 }
 
 const apiBasePath = "http://api.sqwozcode.ru";
+const defaultLimit = "10";
+
+const listGetter = (queryParams: Record<string, string>) => {
+    return axios
+        .get(
+            `${apiBasePath}/getActivitiesList?${new URLSearchParams(
+                queryParams
+            )}`
+        )
+        .then(function (response) {
+            const items = response.data.message
+                ? response.data.message.map((item: Record<string, string>) => ({
+                      id: item.uid,
+                      title: item.type3.replace("ОНЛАЙН ", ""),
+                      description: item.d_level1,
+                      isOnline: item.online || item.type3.includes("ОНЛАЙН"),
+                      clusterId: item.clusterId,
+                  }))
+                : [];
+
+            const resultItems: Array<Activity> = [];
+            items.map((item: Activity) => {
+                const existed = resultItems.find((i) => i.title === item.title);
+                if (!existed) {
+                    resultItems.push(item);
+                }
+            });
+
+            return resultItems;
+        })
+        .catch(function (error) {
+            console.log(error);
+            return [];
+        });
+};
 
 const useApiClient = (): ApiClient => {
     return {
-        getActivitiesList: (params) => {
+        getActivitiesList: async (params) => {
             const queryParams: Record<string, string> = {};
             if (params?.preset) {
                 queryParams.preset = params.preset;
             }
             if (params?.search) {
                 queryParams.search = params.search;
-            }
-
-            if (typeof params?.online !== "undefined") {
-                queryParams.online = params.online ? "1" : "0";
             }
 
             if (params?.cluster) {
@@ -76,34 +108,56 @@ const useApiClient = (): ApiClient => {
                 queryParams.type = params.type;
             }
 
-            queryParams.limit = params?.limit?.toString() || "10";
-            queryParams.offset = params?.offset?.toString() || "0";
+            const limit = params?.limit?.toString() || defaultLimit;
+            const offset = params?.offset?.toString() || "0";
 
-            return axios
-                .get(
-                    `${apiBasePath}/getActivitiesList?${new URLSearchParams(
-                        queryParams
-                    )}`
-                )
-                .then(function (response) {
-                    const items = response.data.message
-                        ? response.data.message.map(
-                              (item: Record<string, string>) => ({
-                                  id: item.uid,
-                                  title: item.type3,
-                                  description: item.d_level1,
-                                  isOnline: item.online,
-                                  clusterId: item.clusterId,
-                              })
-                          )
-                        : [];
+            if (typeof params?.online !== "undefined") {
+                queryParams.online = params.online ? "1" : "0";
+                queryParams.limit = limit;
+                queryParams.offset = offset;
 
-                    return items;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    return [];
+                return listGetter(queryParams);
+            } else {
+                const offlineLimit = Math.round(parseInt(limit) * 0.7);
+                const onlineLimit = parseInt(limit) - offlineLimit;
+
+                const offlineOffset = Math.round(parseInt(offset) * 0.7);
+                const onlineOffset = parseInt(offset) - offlineOffset;
+
+                const offlineItems = listGetter({
+                    ...queryParams,
+                    limit: offlineLimit.toString(),
+                    offset: offlineOffset.toString(),
+                    online: "0",
                 });
+                const onlineItems = listGetter({
+                    ...queryParams,
+                    limit: onlineLimit.toString(),
+                    offset: onlineOffset.toString(),
+                    online: "1",
+                });
+
+                const items = await Promise.all([
+                    offlineItems,
+                    onlineItems,
+                ]).then(([off, on]) => {
+                    const moreCount = Math.round(off.length / on.length);
+                    const result: Array<Activity> = [];
+                    off.map((_, i) => {
+                        result.push(off[i]);
+                        if (i % moreCount === 0) {
+                            const onItem = on.pop();
+                            if (onItem) {
+                                result.push(onItem);
+                            }
+                        }
+                    }, []);
+
+                    return [...result, ...on];
+                });
+
+                return items;
+            }
         },
         getUser: (userId: string) =>
             axios
@@ -139,13 +193,13 @@ const useApiClient = (): ApiClient => {
                 .then(function (response) {
                     console.log(response);
                     return {
-                        id: response.data.message[0].id,
+                        id: response.data.message[0].uid,
                     };
                 })
                 .catch(function (error) {
                     console.log(error);
                     return {
-                        id: "1",
+                        id: "101351338",
                     };
                 }),
         getClusters: () => {
@@ -210,6 +264,35 @@ const useApiClient = (): ApiClient => {
                     console.log(error);
                     return false;
                 }),
+        getRecomends: (uid, preset) => {
+            return axios
+                .get(
+                    `${apiBasePath}/getRecomends?ml=${
+                        preset === "recommeds" ? "mrg" : "mrn"
+                    }&id=${uid}`
+                )
+                .then(function (response) {
+                    const items = response.data.message
+                        ? response.data.message.map(
+                              (item: Record<string, string>) => ({
+                                  id: item.uid,
+                                  title: item.type3.replace("ОНЛАЙН ", ""),
+                                  description: item.d_level1,
+                                  isOnline:
+                                      item.online ||
+                                      item.type3.includes("ОНЛАЙН"),
+                                  clusterId: item.clusterId,
+                              })
+                          )
+                        : [];
+
+                    return items;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    return [];
+                });
+        },
     };
 };
 

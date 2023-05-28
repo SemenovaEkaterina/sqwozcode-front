@@ -18,7 +18,6 @@ import { Routes } from "./libs/application-routes";
 import store from "./store";
 
 import "./index.css";
-import moment from "moment";
 import ActivityPage from "./pages/activity";
 
 const router = createBrowserRouter(

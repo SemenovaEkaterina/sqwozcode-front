@@ -3,11 +3,11 @@ import BannersHeader from "../components/banners-header";
 import Layout from "../components/layout";
 import ActivitiesPresetContainer from "../containers/activities-preset-container";
 import AuthModalContainer from "../containers/auth-modal-container";
-import { useSelector } from "react-redux";
-import { getUser } from "../store/user-slice";
 import OfflineBanner from "../components/offline-banner";
 import Header from "../components/header";
 import Map from "../components/map";
+import { useSelector } from "react-redux";
+import { getUser } from "../store/user-slice";
 
 const notAuthorizedPresets = [
     {
@@ -31,13 +31,11 @@ const authorizedPresets = [
     },
     {
         title: "Рекомендации для вас",
-        // todo: api
-        preset: "health",
+        preset: "recommeds",
     },
     {
         title: "Выбор ваших соседей",
-        // todo: api
-        preset: "mind",
+        preset: "near",
     },
 ];
 
@@ -51,12 +49,12 @@ const MainPage = () => {
                 <Header />
                 <BannersHeader />
                 {presets.map((preset, i) => (
-                    <>
-                        <ActivitiesPresetContainer {...preset} />
-                        {i === 1 && <OfflineBanner />}
-                    </>
+                    <div key={preset.title}>
+                        <ActivitiesPresetContainer {...preset} userId={user?.id} />
+                        {i === 1 && <OfflineBanner key="offline" />}
+                    </div>
                 ))}
-                <Map />
+                {user?.id && <Map />}
             </Layout>
             <AuthModalContainer />
         </>

@@ -9,7 +9,7 @@ const useActivitiesListLoader = () => {
     const [isLoading, setLoading] = useState(false);
     const [data, setData] = useState<Array<Activity>>([]);
     const [offset, setOffset] = useState(0);
-    const limit = 8;
+    const limit = 40;
 
     const [clusters, setClusters] = useState<Array<Cluster>>([]);
 
