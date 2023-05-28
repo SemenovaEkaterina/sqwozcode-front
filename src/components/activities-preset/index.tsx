@@ -19,7 +19,11 @@ interface ActivitiesPresetProps {
     isLoading: boolean;
 }
 
-const ActivitiesPreset: FC<ActivitiesPresetProps> = ({ title, data }) => {
+const ActivitiesPreset: FC<ActivitiesPresetProps> = ({
+    title,
+    data,
+    isLoading,
+}) => {
     const className = useClassname("activities-preset");
     const swiperRef = useRef<SwiperRef>(null);
 
@@ -29,6 +33,18 @@ const ActivitiesPreset: FC<ActivitiesPresetProps> = ({ title, data }) => {
     const handleNext = useCallback(() => {
         swiperRef.current?.swiper.slideNext();
     }, []);
+
+    const presetData: Array<Activity> = isLoading
+        ? Array(8)
+              .fill(0)
+              .map(() => ({
+                  id: "",
+                  title: "",
+                  description: "",
+                  isOnline: false,
+                  clusterId: "",
+              }))
+        : data;
 
     return (
         <div className={className()}>
@@ -50,7 +66,7 @@ const ActivitiesPreset: FC<ActivitiesPresetProps> = ({ title, data }) => {
                     modules={[Mousewheel]}
                     loop
                 >
-                    {data.map((item) => (
+                    {presetData.map((item) => (
                         <SwiperSlide>
                             <ActivityCard
                                 id={item.id}
@@ -62,6 +78,7 @@ const ActivitiesPreset: FC<ActivitiesPresetProps> = ({ title, data }) => {
                                         : "Очное занятие"
                                 }
                                 clusterId={item.clusterId}
+                                isLoading={isLoading}
                             />
                         </SwiperSlide>
                     ))}

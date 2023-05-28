@@ -88,6 +88,7 @@ const ActivitiesListContainer: FC = () => {
                 online: urlParams.online?.split(",") || [],
                 dayOfWeek: urlParams.dayOfWeek?.split(",") || [],
                 cluster: urlParams.cluster?.split(",") || [],
+                search: urlParams.search?.split(",") || [],
             }}
             onChangeFilter={(key: keyof UrlParams, value: string[]) => {
                 addUrlParam(key, value.join(","));

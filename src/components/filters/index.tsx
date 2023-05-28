@@ -103,7 +103,9 @@ const Filters: FC<FiltersProps> = ({ data, onChangeFilter, clusters }) => {
         });
     }, [onChangeFilter]);
 
-    const hasFilters = filters.filter((filter) => data[filter]?.length).length;
+    const hasFilters = filters.filter((filter) => {
+        return data[filter]?.length;
+    }).length;
 
     return (
         <div>

@@ -1,6 +1,8 @@
 .header {
     display: flex;
 
+    gap: 16px;
+
     &__home {
         width: 62px;
         height: 62px;
@@ -17,14 +19,14 @@
         display: flex;
         justify-content: center;
 
-        margin-right: 16px;
-
         & svg {
             width: 20px;
             height: 20px;
         }
 
         transition: all 100ms linear;
+
+        flex-shrink: 0;
 
         &:hover {
             border-color: #2e343f;

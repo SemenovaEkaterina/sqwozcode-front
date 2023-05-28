@@ -5,8 +5,6 @@ import { useClassname } from "../../libs/css";
 import { typesConfig } from "../../libs/types";
 import { useUrlParams } from "../../libs/url-params";
 import Button from "../button";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import img from "./img.png";
 
 import "./styles.scss";

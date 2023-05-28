@@ -3,8 +3,6 @@ import { useClassname } from "../../libs/css";
 import { Modal, Input, DatePicker } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import img from "./img.svg";
 
 import "./styles.scss";
@@ -13,10 +11,22 @@ import { useState } from "react";
 import { useCallback } from "react";
 
 export interface AuthModalFormData {
-    fName: string;
-    mName: string;
-    lName: string;
-    birth: string;
+    fName: {
+        value: string;
+        error: boolean;
+    };
+    mName: {
+        value: string;
+        error: boolean;
+    };
+    lName: {
+        value: string;
+        error: boolean;
+    };
+    birth: {
+        value: string;
+        error: boolean;
+    };
 }
 
 interface AuthModalProps {
@@ -29,14 +39,43 @@ const AuthModal: FC<AuthModalProps> = (props) => {
     const className = useClassname("auth-modal");
 
     const [formState, setFormState] = useState<AuthModalFormData>({
-        fName: "",
-        mName: "",
-        lName: "",
-        birth: "",
+        fName: {
+            value: "",
+            error: false,
+        },
+        mName: {
+            value: "",
+            error: false,
+        },
+        lName: {
+            value: "",
+            error: false,
+        },
+        birth: {
+            value: "",
+            error: false,
+        },
     });
 
     const submit = useCallback(() => {
-        props.onSubmit(formState);
+        let hasError = false;
+
+        Object.keys(formState).map((key) => {
+            if (!formState[key as keyof AuthModalFormData].value) {
+                setFormState((state) => ({
+                    ...state,
+                    [key]: {
+                        value: "",
+                        error: true,
+                    },
+                }));
+                hasError = true;
+            }
+        });
+
+        if (!hasError) {
+            props.onSubmit(formState);
+        }
     }, [formState, props.onSubmit]);
 
     return (
@@ -64,43 +103,59 @@ const AuthModal: FC<AuthModalProps> = (props) => {
                     <Input
                         placeholder="Фамилия"
                         className={className("input")}
-                        value={formState.lName}
+                        value={formState.lName.value}
+                        status={formState.lName.error ? "error" : ""}
                         onChange={(e) =>
                             setFormState((state) => ({
                                 ...state,
-                                lName: e.target.value,
+                                lName: {
+                                    value: e.target.value,
+                                    error: false,
+                                },
                             }))
                         }
                     />
                     <Input
                         placeholder="Имя"
                         className={className("input")}
-                        value={formState.fName}
+                        value={formState.fName.value}
+                        status={formState.fName.error ? "error" : ""}
                         onChange={(e) =>
                             setFormState((state) => ({
                                 ...state,
-                                fName: e.target.value,
+                                fName: {
+                                    value: e.target.value,
+                                    error: false,
+                                },
                             }))
                         }
                     />
                     <Input
                         placeholder="Отчество"
                         className={className("input")}
-                        value={formState.mName}
+                        value={formState.mName.value}
+                        status={formState.mName.error ? "error" : ""}
                         onChange={(e) =>
                             setFormState((state) => ({
                                 ...state,
-                                mName: e.target.value,
+                                mName: {
+                                    value: e.target.value,
+                                    error: false,
+                                },
                             }))
                         }
                     />
                     <DatePicker
                         placeholder="Дата рождения"
                         className={className("input")}
+                        status={formState.birth.error ? "error" : ""}
                         onChange={(_value, dateString) =>
                             setFormState((state) => ({
                                 ...state,
-                                birth: dateString,
+                                birth: {
+                                    value: dateString,
+                                    error: false,
+                                },
                             }))
                         }
                     />

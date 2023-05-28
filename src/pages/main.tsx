@@ -6,7 +6,7 @@ import AuthModalContainer from "../containers/auth-modal-container";
 import { useSelector } from "react-redux";
 import { getUser } from "../store/user-slice";
 import OfflineBanner from "../components/offline-banner";
-import MainSearchContainer from "../containers/main-search-container";
+import Header from "../components/header";
 
 const notAuthorizedPresets = [
     {
@@ -47,7 +47,7 @@ const MainPage = () => {
     return (
         <>
             <Layout>
-                <MainSearchContainer />
+                <Header />
                 <BannersHeader />
                 {presets.map((preset, i) => (
                     <>

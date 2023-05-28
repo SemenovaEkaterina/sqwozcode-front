@@ -18,7 +18,11 @@ import cluster16 from "./16.svg";
 import cluster17 from "./17.svg";
 import stub from "./stub.svg";
 
-const getClusterPicture = (id: string): string => {
+const getClusterPicture = (id?: string): string => {
+    if (!id) {
+        return stub;
+    }
+
     return (
         {
             "0": cluster0,

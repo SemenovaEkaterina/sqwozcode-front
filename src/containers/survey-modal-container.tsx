@@ -1,5 +1,9 @@
 import React, { FC } from "react";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import SurveyModal from "../components/survey-modal";
+import useApiClient from "../libs/api-client";
+import { getUser, setSurveyResult } from "../store/user-slice";
 
 const questionsConfig = {
     "0": {
@@ -38,12 +42,12 @@ const questionsConfig = {
             {
                 id: "0",
                 text: "Да",
-                result: "СПОРТИВНЫЕ ИГРЫ",
+                result: "10",
             },
             {
                 id: "1",
                 text: "Нет",
-                result: "СПОРТИВНЫЕ ЗАНЯТИЯ",
+                result: "12",
             },
         ],
     },
@@ -58,7 +62,7 @@ const questionsConfig = {
             {
                 id: "1",
                 text: "Нет",
-                result: "КРАСОТА И ЗДОРОВЬЕ",
+                result: "8",
             },
         ],
     },
@@ -68,12 +72,12 @@ const questionsConfig = {
             {
                 id: "0",
                 text: "Да",
-                result: "ТАНЦЫ",
+                result: "1",
             },
             {
                 id: "1",
                 text: "Нет",
-                result: "ГИМНАСТИКА",
+                result: "14",
             },
         ],
     },
@@ -98,7 +102,7 @@ const questionsConfig = {
             {
                 id: "0",
                 text: "Да",
-                result: "ИСТОРИЯ, ЭКСКУРСИИ",
+                result: "13",
             },
             {
                 id: "1",
@@ -113,7 +117,7 @@ const questionsConfig = {
             {
                 id: "0",
                 text: "Да",
-                result: "МУЗЫКА",
+                result: "3",
             },
             {
                 id: "1",
@@ -128,7 +132,7 @@ const questionsConfig = {
             {
                 id: "0",
                 text: "Да",
-                result: "ХУДОЖЕСТВЕННО-ПРИКЛАДНОЕ ТВОРЧЕСТВО",
+                result: "0",
             },
             {
                 id: "1",
@@ -158,7 +162,7 @@ const questionsConfig = {
             {
                 id: "0",
                 text: "Да",
-                result: "ИНОСТРАННЫЕ ЯЗЫКИ",
+                result: "2",
             },
             {
                 id: "1",
@@ -173,7 +177,7 @@ const questionsConfig = {
             {
                 id: "0",
                 text: "Да",
-                result: "ИНФОРМАЦИОННЫЕ ТЕХНОЛОГИИ",
+                result: "5",
             },
             {
                 id: "1",
@@ -188,12 +192,12 @@ const questionsConfig = {
             {
                 id: "0",
                 text: "Да",
-                result: "ПСИХОЛОГИЯ",
+                result: "4",
             },
             {
                 id: "1",
                 text: "Нет",
-                result: "ОБРАЗОВАНИЕ",
+                result: "15",
             },
         ],
     },
@@ -203,12 +207,12 @@ const questionsConfig = {
             {
                 id: "0",
                 text: "Да",
-                result: "ДОМОВОДСТВО",
+                result: "9",
             },
             {
                 id: "1",
                 text: "Нет",
-                result: "НАСТОЛЬНЫЕ ИГРЫ, ИНТЕЛЛЕКТУАЛЬНЫЙ ДОСУГ",
+                result: "17",
             },
         ],
     },
@@ -218,18 +222,27 @@ const SurveyModalContainer: FC<{
     isOpened: boolean;
     onClose: () => void;
 }> = ({ isOpened, onClose }) => {
-    // const apiClient = useApiClient();
-    // const dispatch = useDispatch();
+    const apiClient = useApiClient();
+    const dispatch = useDispatch();
+    const user = useSelector(getUser);
 
-    // const handleSubmit = useCallback(async (data: any) => {
-    //     // todo
-    // }, []);
+    const handleSubmit = useCallback(
+        async (id: string) => {
+            if (user) {
+                await apiClient.saveSurveyResult(id, user.id);
+                dispatch(setSurveyResult(id));
+                onClose();
+            }
+        },
+        [user]
+    );
 
     return (
         <SurveyModal
             isOpened={isOpened}
             data={questionsConfig}
             onClose={onClose}
+            onResult={handleSubmit}
         />
     );
 };

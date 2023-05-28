@@ -10,7 +10,8 @@ interface ActivityCardProps {
     title: string;
     description: string;
     info: string;
-    clusterId: string;
+    clusterId?: string;
+    isLoading?: boolean;
 }
 
 const ActivityCard: FC<ActivityCardProps> = ({
@@ -19,11 +20,15 @@ const ActivityCard: FC<ActivityCardProps> = ({
     description,
     info,
     clusterId,
+    isLoading,
 }) => {
     const className = useClassname("activity-card");
 
     return (
-        <Link to={`${Routes.Activity}?id=${id}`} className={className()}>
+        <Link
+            to={`${Routes.Activity}?id=${id}`}
+            className={className({ loading: isLoading })}
+        >
             <div className={className("image-container")}>
                 <ActivityImage
                     className={className("image")}

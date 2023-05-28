@@ -7,6 +7,7 @@ import useApiClient from "../libs/api-client";
 import { useUserSession } from "../libs/user-session";
 import {
     isAuthModalOpened,
+    setSurveyResult,
     setUser,
     toggleAuthModal,
 } from "../store/user-slice";
@@ -20,7 +21,12 @@ const AuthModalContainer = () => {
     const isOpened = useSelector(isAuthModalOpened);
 
     const handleSubmit = useCallback(async (data: AuthModalFormData) => {
-        const response = await apiClient.createUser(data);
+        const response = await apiClient.createUser({
+            fName: data.fName.value,
+            mName: data.mName.value,
+            lName: data.lName.value,
+            birth: data.birth.value,
+        });
 
         saveUserId(response.id);
         dispatch(setUser({ id: response.id }));
@@ -29,11 +35,20 @@ const AuthModalContainer = () => {
     }, []);
 
     useEffect(() => {
+        const loadUser = async (id: string) => {
+            const data = await apiClient.getUser(id);
+
+            dispatch(setUser({ id: data.id }));
+            if (data.cluster) {
+                dispatch(setSurveyResult(data.cluster));
+            }
+        };
+
         if (needAuth) {
             dispatch(toggleAuthModal(true));
         }
         if (userId) {
-            dispatch(setUser({ id: userId }));
+            loadUser(userId);
         }
     }, [needAuth, userId]);
 

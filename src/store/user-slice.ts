@@ -8,6 +8,7 @@ interface UserState {
     data?: {
         id: string;
     };
+    surveyResult?: string;
     isAuthModalOpened: boolean;
 }
 
@@ -24,6 +25,9 @@ const initialState: UserState = {
             setUser: (state, action: PayloadAction<UserData>) => {
                 state.data = action.payload;
             },
+            setSurveyResult: (state, action: PayloadAction<string>) => {
+                state.surveyResult = action.payload;
+            },
         },
     });
 
@@ -31,9 +35,10 @@ const selectors = {
     isAuthModalOpened: (state: { user: UserState }) =>
         state.user.isAuthModalOpened,
     getUser: (state: { user: UserState }) => state.user.data,
+    getSurveyResult: (state: { user: UserState }) => state.user.surveyResult,
 };
 
-export const { setUser, toggleAuthModal } = userSlice.actions;
-export const { getUser, isAuthModalOpened } = selectors;
+export const { setUser, toggleAuthModal, setSurveyResult } = userSlice.actions;
+export const { getUser, isAuthModalOpened, getSurveyResult } = selectors;
 
 export default userSlice.reducer;

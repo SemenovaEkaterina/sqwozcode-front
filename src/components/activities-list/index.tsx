@@ -7,6 +7,7 @@ import { Activity, Cluster } from "../../libs/api-client";
 import Filters, { FiltersData } from "../filters";
 import { UrlParams } from "../../libs/url-params";
 import Button from "../button";
+import { useAnchorScroll } from "../../libs/anchor-scroll";
 
 interface ActivitiesListProps {
     title: string;
@@ -25,8 +26,22 @@ const ActivitiesList: FC<ActivitiesListProps> = ({
     onChangeFilter,
     loadMore,
     clusters,
+    isLoading,
 }) => {
     const className = useClassname("activities-list");
+    useAnchorScroll();
+
+    const listData: Array<Activity> = isLoading
+        ? Array(8)
+              .fill(0)
+              .map(() => ({
+                  id: "",
+                  title: "",
+                  description: "",
+                  isOnline: false,
+                  clusterId: "",
+              }))
+        : data;
 
     return (
         <div className={className()}>
@@ -38,31 +53,50 @@ const ActivitiesList: FC<ActivitiesListProps> = ({
                 />
             </div>
 
-            <div className={className("list")}>
+            <div className={className("list")} id="activities-list">
                 <div className={className("title")}>{title}</div>
-                <div className={className("items")}>
-                    {data.map((item, i) => (
-                        <div
-                            className={className("item")}
-                            key={`${item.title}${i}`}
-                        >
-                            <ActivityCard
-                                id={item.id}
-                                title={item.title}
-                                description={item.description}
-                                info={
-                                    item.isOnline
-                                        ? "Онлайн занятие"
-                                        : "Очное занятие"
-                                }
-                                clusterId={item.clusterId}
-                            />
+                {!listData.length ? (
+                    <div className={className("empty")}>
+                        <div className={className("empty-title")}>
+                            К сожалению, по вашему запросу ничего не найдено
                         </div>
-                    ))}
-                </div>
-                <Button onClick={loadMore} size="l" mode="active" width="full">
-                    Загрузить еще
-                </Button>
+                        <div className={className("empty-text")}>
+                            Попробуйте скорректировать запрос или изменить
+                            параметры фильтрации
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <div className={className("items")}>
+                            {listData.map((item, i) => (
+                                <div
+                                    className={className("item")}
+                                    key={`${item.title}${i}`}
+                                >
+                                    <ActivityCard
+                                        id={item.id}
+                                        title={item.title}
+                                        description={item.description}
+                                        info={
+                                            item.isOnline
+                                                ? "Онлайн занятие"
+                                                : "Очное занятие"
+                                        }
+                                        clusterId={item.clusterId}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <Button
+                            onClick={loadMore}
+                            size="l"
+                            mode="active"
+                            width="full"
+                        >
+                            Загрузить еще
+                        </Button>
+                    </>
+                )}
             </div>
         </div>
     );

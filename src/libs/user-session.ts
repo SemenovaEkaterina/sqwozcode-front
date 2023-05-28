@@ -3,7 +3,7 @@ import { useLocalStorage } from "./local-storage";
 const lsUserDataKey = "_sqwozcode_user_data";
 
 export const useUserSession = () => {
-    const { getLs, setLs } = useLocalStorage();
+    const { getLs, setLs, deleteLs } = useLocalStorage();
     const userData = getLs(lsUserDataKey);
 
     let id;
@@ -22,6 +22,9 @@ export const useUserSession = () => {
         },
         saveUserId: (userId: string) => {
             setLs(lsUserDataKey, JSON.stringify({ id: userId }));
+        },
+        reset: () => {
+            deleteLs(lsUserDataKey);
         },
     };
 };

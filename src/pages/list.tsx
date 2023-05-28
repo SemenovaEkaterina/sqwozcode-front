@@ -8,7 +8,7 @@ import AuthModalContainer from "../containers/auth-modal-container";
 const ListPage = () => (
     <>
         <Layout>
-            <Header />
+            <Header hasHome />
             <BannersHeader />
             <ActivitiesListContainer />
             <AuthModalContainer />

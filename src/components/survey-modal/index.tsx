@@ -7,8 +7,6 @@ import {
     CloseOutlined,
 } from "@ant-design/icons";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import img from "./img.svg";
 
 import "./styles.scss";
@@ -29,11 +27,17 @@ interface SurveyProps {
     isOpened: boolean;
     data: Record<string, SurveyQuestion>;
     onClose: () => void;
+    onResult: (id: string) => void;
 }
 
 const progressScale = [30, 60, 70, 80, 90, 100];
 
-const SurveyModal: FC<SurveyProps> = ({ isOpened, data, onClose }) => {
+const SurveyModal: FC<SurveyProps> = ({
+    isOpened,
+    data,
+    onClose,
+    onResult,
+}) => {
     const className = useClassname("survey-modal");
     const [activeQuestionId, setActiveQuestionId] = useState("0");
     const activeQuestion = data[activeQuestionId];
@@ -128,9 +132,7 @@ const SurveyModal: FC<SurveyProps> = ({ isOpened, data, onClose }) => {
                                     }
 
                                     if (currentAnswer?.result) {
-                                        // handleSubmit
-                                        // reset form
-                                        alert(currentAnswer?.result);
+                                        onResult(currentAnswer.result);
                                     }
                                 }}
                             >

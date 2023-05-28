@@ -26,9 +26,15 @@ export interface Cluster {
     type: Type;
 }
 
+export interface User {
+    id: string;
+    cluster?: string;
+}
+
 // todo: error response
 
 interface ApiClient {
+    getUser: (id: string) => Promise<User>;
     createUser: (data: {
         fName: string;
         mName: string;
@@ -42,6 +48,7 @@ interface ApiClient {
     ) => Promise<Array<Activity>>;
     getClusters: () => Promise<Array<Cluster>>;
     getActivity: (id: string) => Promise<Activity>;
+    saveSurveyResult: (cluserId: string, userId: string) => Promise<boolean>;
 }
 
 const apiBasePath = "http://api.sqwozcode.ru";
@@ -98,6 +105,21 @@ const useApiClient = (): ApiClient => {
                     return [];
                 });
         },
+        getUser: (userId: string) =>
+            axios
+                .get(`${apiBasePath}/getUser?uid=${userId}`)
+                .then(function (response) {
+                    return {
+                        id: response.data.message[0].id,
+                        cluster: response.data.message[0].clusterId,
+                    };
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    return {
+                        id: "",
+                    };
+                }),
         createUser: (data) =>
             axios
                 .post(
@@ -117,11 +139,10 @@ const useApiClient = (): ApiClient => {
                 .then(function (response) {
                     console.log(response);
                     return {
-                        id: response.data.message.id,
+                        id: response.data.message[0].id,
                     };
                 })
                 .catch(function (error) {
-                    // todo:
                     console.log(error);
                     return {
                         id: "1",
@@ -176,6 +197,19 @@ const useApiClient = (): ApiClient => {
                     };
                 });
         },
+        saveSurveyResult: (cluserId: string, userId: string) =>
+            axios
+                .get(
+                    `${apiBasePath}/saveSurveyResult?clusterId=${cluserId}&userId=${userId}`
+                )
+                .then(function (response) {
+                    console.log(response);
+                    return true;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    return false;
+                }),
     };
 };
 

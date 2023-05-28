@@ -148,7 +148,19 @@
         font-weight: 400;
         font-size: 16px;
         line-height: 24px;
-        
-        color: #313E4F;
+
+        color: #313e4f;
+    }
+
+    &__back-button {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+
+        color: #313e4f;
+
+        margin: 32px 0;
+
+        cursor: pointer;
     }
 }

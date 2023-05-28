@@ -6,5 +6,8 @@ export const useLocalStorage = () => {
         setLs: (key: string, value: string) => {
             return localStorage.setItem(key, value);
         },
+        deleteLs: (key: string) => {
+            return localStorage.removeItem(key);
+        },
     };
 };

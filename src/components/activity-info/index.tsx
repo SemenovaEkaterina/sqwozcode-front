@@ -11,6 +11,10 @@ import {
 import "./styles.scss";
 import { Activity } from "../../libs/api-client";
 import ActivityImage from "../activity-image";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { LeftOutlined } from "@ant-design/icons";
 
 interface ActivityInfoProps {
     data: Activity;
@@ -18,9 +22,17 @@ interface ActivityInfoProps {
 
 const ActivityInfo: FC<ActivityInfoProps> = ({ data }) => {
     const className = useClassname("activity-info");
+    const navigate = useNavigate();
+
+    const handleBack = useCallback(() => {
+        navigate(-1);
+    }, [navigate]);
 
     return (
         <div className={className()}>
+            <div onClick={handleBack} className={className("back-button")}>
+                <LeftOutlined /> Вернуться к списку
+            </div>
             <Row gutter={[16, 24]}>
                 <Col span={8}>
                     <div className={className("enroll-card")}>
@@ -78,7 +90,13 @@ const ActivityInfo: FC<ActivityInfoProps> = ({ data }) => {
                                 </div>
                                 <div className={className("info-block-data")}>
                                     Петров Олег Николаевич
-                                    <div className={className("info-block-data-s")}>стаж преподавания 10 лет</div>
+                                    <div
+                                        className={className(
+                                            "info-block-data-s"
+                                        )}
+                                    >
+                                        стаж преподавания 10 лет
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -105,14 +123,21 @@ const ActivityInfo: FC<ActivityInfoProps> = ({ data }) => {
                         <div className={className("info-block-items")}>
                             <div className={className("info-block-item")}>
                                 <div className={className("info-block-label")}>
-                                    <FileOutlined />{" "}
-                                    Запись в группу ведет
+                                    <FileOutlined /> Запись в группу ведет
                                 </div>
                                 <div className={className("info-block-data")}>
                                     <ul>
-                                        <li>ГБУ ТЦСО "Беговой" филиал "Сокол"</li>
-                                        <li>Телефон для справок: +7(495)870-44-44</li>
-                                        <li>Адрес: г. Москва, улица Сальвадора Альенде, дом 1 (на карте)</li>
+                                        <li>
+                                            ГБУ ТЦСО "Беговой" филиал "Сокол"
+                                        </li>
+                                        <li>
+                                            Телефон для справок:
+                                            +7(495)870-44-44
+                                        </li>
+                                        <li>
+                                            Адрес: г. Москва, улица Сальвадора
+                                            Альенде, дом 1 (на карте)
+                                        </li>
                                         <li>Панфиловская (5 мин. пешком)</li>
                                     </ul>
                                 </div>

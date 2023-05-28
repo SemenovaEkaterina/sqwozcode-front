@@ -3,7 +3,7 @@ import { getClusterPicture } from "./pictures";
 
 interface ActivityImageProps {
     className: string;
-    clusterId: string;
+    clusterId?: string;
 }
 
 const ActivityImage: FC<ActivityImageProps> = ({ className, clusterId }) => {

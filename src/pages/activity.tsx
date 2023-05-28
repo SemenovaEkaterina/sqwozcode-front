@@ -6,7 +6,7 @@ import ActivityContainer from "../containers/activity-container";
 const ActivityPage = () => (
     <>
         <Layout>
-            <Header />
+            <Header hasHome />
             <ActivityContainer />
         </Layout>
     </>
