@@ -47,6 +47,7 @@ const ActivitiesList: FC<ActivitiesListProps> = ({
                             key={`${item.title}${i}`}
                         >
                             <ActivityCard
+                                id={item.id}
                                 title={item.title}
                                 description={item.description}
                                 info={
@@ -54,6 +55,7 @@ const ActivitiesList: FC<ActivitiesListProps> = ({
                                         ? "Онлайн занятие"
                                         : "Очное занятие"
                                 }
+                                clusterId={item.clusterId}
                             />
                         </div>
                     ))}

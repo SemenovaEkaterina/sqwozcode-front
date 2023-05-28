@@ -7,6 +7,7 @@ export enum Type {
 }
 
 export interface UrlParams {
+    id?: string;
     type?: Type;
     search?: string;
     online?: string;

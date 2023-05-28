@@ -1,32 +1,41 @@
 import React, { FC } from "react";
+import { Link } from "react-router-dom";
+import { Routes } from "../../libs/application-routes";
 import { useClassname } from "../../libs/css";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import stub from "./stub.png";
+import ActivityImage from "../activity-image";
 import "./styles.scss";
 
 interface ActivityCardProps {
+    id: string;
     title: string;
     description: string;
     info: string;
+    clusterId: string;
 }
 
-const ActivityCard: FC<ActivityCardProps> = (props) => {
+const ActivityCard: FC<ActivityCardProps> = ({
+    id,
+    title,
+    description,
+    info,
+    clusterId,
+}) => {
     const className = useClassname("activity-card");
 
     return (
-        <div className={className()}>
+        <Link to={`${Routes.Activity}?id=${id}`} className={className()}>
             <div className={className("image-container")}>
-                <img className={className("image")} src={stub} />
+                <ActivityImage
+                    className={className("image")}
+                    clusterId={clusterId}
+                />
             </div>
             <div className={className("content")}>
-                <div className={className("title")}>{props.title}</div>
-                <div className={className("description")}>
-                    {props.description}
-                </div>
-                <div className={className("info")}>{props.info}</div>
+                <div className={className("title")}>{title}</div>
+                <div className={className("description")}>{description}</div>
+                <div className={className("info")}>{info}</div>
             </div>
-        </div>
+        </Link>
     );
 };
 

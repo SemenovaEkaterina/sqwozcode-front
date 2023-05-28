@@ -17,6 +17,7 @@ export interface Activity {
     description: string;
     picture?: string;
     isOnline: boolean;
+    clusterId: string;
 }
 
 export interface Cluster {
@@ -40,6 +41,7 @@ interface ApiClient {
         params?: ActivitiesListParams
     ) => Promise<Array<Activity>>;
     getClusters: () => Promise<Array<Cluster>>;
+    getActivity: (id: string) => Promise<Activity>;
 }
 
 const apiBasePath = "http://api.sqwozcode.ru";
@@ -80,10 +82,11 @@ const useApiClient = (): ApiClient => {
                     const items = response.data.message
                         ? response.data.message.map(
                               (item: Record<string, string>) => ({
-                                  id: item.id,
+                                  id: item.uid,
                                   title: item.type3,
                                   description: item.d_level1,
                                   isOnline: item.online,
+                                  clusterId: item.clusterId,
                               })
                           )
                         : [];
@@ -93,33 +96,6 @@ const useApiClient = (): ApiClient => {
                 .catch(function (error) {
                     console.log(error);
                     return [];
-
-                    // return [
-                    //     {
-                    //         id: "111",
-                    //         title: "test",
-                    //         description: "test",
-                    //         isOnline: true,
-                    //     },
-                    //     {
-                    //         id: "111",
-                    //         title: "test",
-                    //         description: "test",
-                    //         isOnline: true,
-                    //     },
-                    //     {
-                    //         id: "111",
-                    //         title: "test",
-                    //         description: "test",
-                    //         isOnline: true,
-                    //     },
-                    //     {
-                    //         id: "111",
-                    //         title: "test",
-                    //         description: "test",
-                    //         isOnline: true,
-                    //     },
-                    // ];
                 });
         },
         createUser: (data) =>
@@ -170,6 +146,34 @@ const useApiClient = (): ApiClient => {
                 .catch(function (error) {
                     console.log(error);
                     return [];
+                });
+        },
+        getActivity: (id: string) => {
+            return axios
+                .get(`${apiBasePath}/getActivity?id=${id}`)
+                .then(function (response) {
+                    const item = response.data.message[0];
+                    return {
+                        id: item.id,
+                        title: item.type3,
+                        description: item.d_level1,
+                        picture: item.picture,
+                        isOnline: item.online,
+                        clusterId: item.clusterId,
+                    };
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    // return {};
+
+                    return {
+                        id: "123",
+                        title: "Предпринимательская деятельность в малом и среднем бизнесе",
+                        description:
+                            "Программа по изучению основ рыночной экономики, организационно-правовых форм предпринимательской деятельности, порядка создания микро-, малого и среднего предприятий, правовых основ предпринимательской деятельности, основ бухгалтерского учета и налогообложения, а также по формированию навыков создания собственного дела. ",
+                        isOnline: false,
+                        clusterId: "0",
+                    };
                 });
         },
     };

@@ -11,6 +11,12 @@
 
     transition: all 100ms linear;
 
+    text-decoration: none;
+
+    &:hover {
+        border-color: #222222;
+    }
+
     &__image-container {
         padding: 8px 8px 0 8px;
         box-sizing: border-box;
@@ -34,6 +40,8 @@
         line-height: 24px;
         height: 24px;
 
+        color: #222222;
+
         margin-bottom: 16px;
 
         display: -webkit-box;
@@ -45,6 +53,8 @@
     &__description {
         font-size: 14px;
         line-height: 20px;
+
+        color: #313e4f;
 
         height: 40px;
 
@@ -60,5 +70,7 @@
         font-weight: 600;
         font-size: 14px;
         line-height: 20px;
+
+        color: #1e3953;
     }
 }

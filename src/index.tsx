@@ -21,12 +21,14 @@ import "moment/locale/ru";
 
 import "./index.css";
 import moment from "moment";
+import ActivityPage from "./pages/activity";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
             <Route element={<MainPage />} path={Routes.Main} />
             <Route element={<ListPage />} path={Routes.List} />
+            <Route element={<ActivityPage />} path={Routes.Activity} />
         </>
     )
 );
