@@ -50,7 +50,10 @@ const MainPage = () => {
                 <BannersHeader />
                 {presets.map((preset, i) => (
                     <div key={preset.title}>
-                        <ActivitiesPresetContainer {...preset} userId={user?.id} />
+                        <ActivitiesPresetContainer
+                            {...preset}
+                            userId={user?.id}
+                        />
                         {i === 1 && <OfflineBanner key="offline" />}
                     </div>
                 ))}
