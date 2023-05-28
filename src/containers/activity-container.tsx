@@ -22,7 +22,7 @@ const useActivityLoader = () => {
         };
 
         loadData();
-    }, []);
+    }, [id]);
 
     return {
         data,

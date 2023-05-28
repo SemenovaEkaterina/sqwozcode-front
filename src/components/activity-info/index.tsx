@@ -30,8 +30,6 @@ const ActivityInfo: FC<ActivityInfoProps> = ({ data }) => {
         navigate(Routes.List);
     }, [navigate]);
 
-    console.log("data", data);
-
     return (
         <div className={className()}>
             <div onClick={handleBack} className={className("back-button")}>
