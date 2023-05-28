@@ -5,9 +5,7 @@ export const useAnchorScroll = () => {
     const { pathname, hash, key } = useLocation();
 
     useEffect(() => {
-        if (hash === "") {
-            window.scrollTo(0, 0);
-        } else {
+        if (hash !== "") {
             setTimeout(() => {
                 const id = hash.replace("#", "");
                 const element = document.getElementById(id);
