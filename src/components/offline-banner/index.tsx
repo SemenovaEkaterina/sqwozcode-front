@@ -1,8 +1,6 @@
 import React, { FC } from "react";
 import { useClassname } from "../../libs/css";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import img from "./img.png";
 
 import "./styles.scss";

@@ -32,4 +32,36 @@
             border-color: #2e343f;
         }
     }
+
+    &__help {
+        display: flex;
+        align-items: center;
+
+        height: 62px;
+        border: 2px solid #eaebec;
+
+        border-radius: 50px;
+        padding: 8px 8px 8px 24px;
+        box-sizing: border-box;
+
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+
+        color: #2e343f;
+
+        flex-shrink: 0;
+
+        cursor: no-drop;
+    }
+
+    &__glasses {
+        margin-left: 16px;
+        width: 48px;
+        height: 48px;
+
+        background-color: #eaebec;
+        border-radius: 50%;
+        object-fit: none;
+    }
 }

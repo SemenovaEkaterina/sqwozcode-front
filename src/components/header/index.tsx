@@ -9,6 +9,8 @@ import MainSearchContainer from "../../containers/main-search-container";
 import { useUserSession } from "../../libs/user-session";
 import { useCallback } from "react";
 
+import img from "./glasses.svg";
+
 interface HeaderProps {
     hasHome?: boolean;
 }
@@ -19,7 +21,7 @@ const Header: FC<HeaderProps> = ({ hasHome }) => {
 
     const handleLogout = useCallback(() => {
         reset();
-        location.reload();
+        location.href = "/";
     }, [reset]);
 
     return (
@@ -29,6 +31,10 @@ const Header: FC<HeaderProps> = ({ hasHome }) => {
                     <HomeOutlined className={className("home")} />
                 </Link>
             )}
+            <div className={className("help")}>
+                Версия для слабовидящих{" "}
+                <img src={img} className={className("glasses")} />
+            </div>
             <MainSearchContainer />
             {userId && (
                 <LogoutOutlined

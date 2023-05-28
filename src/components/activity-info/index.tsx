@@ -15,6 +15,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { LeftOutlined } from "@ant-design/icons";
+import { Routes } from "../../libs/application-routes";
 
 interface ActivityInfoProps {
     data: Activity;
@@ -25,7 +26,7 @@ const ActivityInfo: FC<ActivityInfoProps> = ({ data }) => {
     const navigate = useNavigate();
 
     const handleBack = useCallback(() => {
-        navigate(-1);
+        navigate(Routes.List);
     }, [navigate]);
 
     return (

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { getUser } from "../store/user-slice";
 import OfflineBanner from "../components/offline-banner";
 import Header from "../components/header";
+import Map from "../components/map";
 
 const notAuthorizedPresets = [
     {
@@ -34,7 +35,7 @@ const authorizedPresets = [
         preset: "health",
     },
     {
-        title: "Выбор людей похожих на вас",
+        title: "Выбор ваших соседей",
         // todo: api
         preset: "mind",
     },
@@ -55,6 +56,7 @@ const MainPage = () => {
                         {i === 1 && <OfflineBanner />}
                     </>
                 ))}
+                <Map />
             </Layout>
             <AuthModalContainer />
         </>

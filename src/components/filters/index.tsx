@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Cluster } from "../../libs/api-client";
 import Button from "../button";
 import { useCallback } from "react";
+import "moment/locale/ru";
 
 export type FiltersData = Partial<Record<keyof UrlParams, string[]>>;
 
@@ -79,6 +80,8 @@ const CheckboxGroup: FC<{
 };
 
 const Filters: FC<FiltersProps> = ({ data, onChangeFilter, clusters }) => {
+    moment.locale("ru");
+
     const className = useClassname("filters");
     const [isOpenedGroup, setOpenedGroup] = useState<
         Partial<Record<Type, boolean>>
