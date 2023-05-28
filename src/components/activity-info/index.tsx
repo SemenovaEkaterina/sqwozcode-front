@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 import { LeftOutlined } from "@ant-design/icons";
 import { Routes } from "../../libs/application-routes";
+import ActivitiesPresetContainer from "../../containers/activities-preset-container";
 
 interface ActivityInfoProps {
     data: Activity;
@@ -28,6 +29,8 @@ const ActivityInfo: FC<ActivityInfoProps> = ({ data }) => {
     const handleBack = useCallback(() => {
         navigate(Routes.List);
     }, [navigate]);
+
+    console.log('data', data);
 
     return (
         <div className={className()}>
@@ -147,6 +150,7 @@ const ActivityInfo: FC<ActivityInfoProps> = ({ data }) => {
                     </div>
                 </Col>
             </Row>
+            <ActivitiesPresetContainer title="С этим занятием смотрят" preset="similar" userId={data.id} />
         </div>
     );
 };

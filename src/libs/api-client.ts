@@ -46,7 +46,7 @@ interface ApiClient {
     getActivitiesList: (
         params?: ActivitiesListParams
     ) => Promise<Array<Activity>>;
-    getRecomends: (id: string, preset: string) => Promise<Array<Activity>>;
+    getRecomends: (preset: string, id?: string) => Promise<Array<Activity>>;
     getClusters: () => Promise<Array<Cluster>>;
     getActivity: (id: string) => Promise<Activity>;
     saveSurveyResult: (cluserId: string, userId: string) => Promise<boolean>;
@@ -229,7 +229,7 @@ const useApiClient = (): ApiClient => {
                 .then(function (response) {
                     const item = response.data.message[0];
                     return {
-                        id: item.id,
+                        id,
                         title: item.type3,
                         description: item.d_level1,
                         picture: item.picture,
@@ -264,13 +264,20 @@ const useApiClient = (): ApiClient => {
                     console.log(error);
                     return false;
                 }),
-        getRecomends: (uid, preset) => {
+        getRecomends: (preset, uid) => {
+            let url = '';
+            if (preset === 'recommeds') {
+                url = `${apiBasePath}/getRecomends?ml=mrg&id=${uid}`;
+            }
+            if (preset === 'near') {
+                url = `${apiBasePath}/getRecomends?ml=mrn&id=${uid}`;
+            }
+            if (preset === 'similar') {
+                url = `${apiBasePath}/getRecomends?ml=mrs&id=${uid}`;
+            }
+
             return axios
-                .get(
-                    `${apiBasePath}/getRecomends?ml=${
-                        preset === "recommeds" ? "mrg" : "mrn"
-                    }&id=${uid}`
-                )
+                .get(url)
                 .then(function (response) {
                     const items = response.data.message
                         ? response.data.message.map(
