@@ -17,7 +17,11 @@ const useActivitiesPresetLoader = (preset: string, userId?: string) => {
             setLoading(true);
 
             let data: Array<Activity> = [];
-            if (preset === "recommeds" || preset === "near" || preset === "similar") {
+            if (
+                preset === "recommeds" ||
+                preset === "near" ||
+                preset === "similar"
+            ) {
                 if (userId) {
                     data = await apiClient.getRecomends(preset, userId);
                 }

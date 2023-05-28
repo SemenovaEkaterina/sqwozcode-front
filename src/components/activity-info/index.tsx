@@ -30,7 +30,7 @@ const ActivityInfo: FC<ActivityInfoProps> = ({ data }) => {
         navigate(Routes.List);
     }, [navigate]);
 
-    console.log('data', data);
+    console.log("data", data);
 
     return (
         <div className={className()}>
@@ -150,7 +150,11 @@ const ActivityInfo: FC<ActivityInfoProps> = ({ data }) => {
                     </div>
                 </Col>
             </Row>
-            <ActivitiesPresetContainer title="С этим занятием смотрят" preset="similar" userId={data.id} />
+            <ActivitiesPresetContainer
+                title="С этим занятием смотрят"
+                preset="similar"
+                userId={data.id}
+            />
         </div>
     );
 };

@@ -265,14 +265,14 @@ const useApiClient = (): ApiClient => {
                     return false;
                 }),
         getRecomends: (preset, uid) => {
-            let url = '';
-            if (preset === 'recommeds') {
+            let url = "";
+            if (preset === "recommeds") {
                 url = `${apiBasePath}/getRecomends?ml=mrg&id=${uid}`;
             }
-            if (preset === 'near') {
+            if (preset === "near") {
                 url = `${apiBasePath}/getRecomends?ml=mrn&id=${uid}`;
             }
-            if (preset === 'similar') {
+            if (preset === "similar") {
                 url = `${apiBasePath}/getRecomends?ml=mrs&id=${uid}`;
             }
 
